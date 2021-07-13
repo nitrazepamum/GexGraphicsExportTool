@@ -49,6 +49,7 @@ namespace GexGraphicsExportTool.Sprite
                     for (int j = 0; j < shift; j++)
                     {
                         //repeat 4 bytes
+                        if (bitmap_index + j % 4 >= sprite.bitmap.Length) return;
                        pixelWriter.Write(sprite.bitmap[bitmap_index + j % 4]);
                     }
                     bitmap_index += 4;

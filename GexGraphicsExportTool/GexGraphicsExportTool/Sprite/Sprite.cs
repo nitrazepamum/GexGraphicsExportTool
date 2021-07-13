@@ -10,6 +10,35 @@ namespace GexGraphicsExportTool.Sprite
         public Header header;
         public byte[] aligmentMap;
         public byte[] bitmap;
+        public Palettes.Palette colorPalette = new Palettes.gexPalette(); //Temporary here
+
+        public int Width
+        {
+            get
+            {
+                int max = 0;
+                foreach (Chunk part in header.parts)
+                {
+                    int current =part.width + part.rel_positionX; // 0x3C - part.positionX + 
+                    if (current > max) max = current;
+                }
+                return max;
+            }
+        }
+        public int Height
+        {
+            get
+            {
+                int max = 0;
+                foreach (Chunk part in header.parts)
+                {
+                    int current = part.rel_positionY + part.height; //part.positionY  * 4 + part.height +
+                    if (current > max) max = current;
+                }
+                return max;
+            }
+        }
+
 
         private int calcBitmapLen()
         {
@@ -43,7 +72,8 @@ namespace GexGraphicsExportTool.Sprite
 
             header.parts = new Chunk[5];
             //Chunks info (not calculated)
-            for (ushort i = 0; i < 5; i++)
+            for (ushort i = 0; i < 5 // TODO TO 8 of 0
+                                     ; i++)
             {
                 header.parts[i] = new Chunk();
                 header.parts[i].positionX = reader.ReadByte();
@@ -61,6 +91,8 @@ namespace GexGraphicsExportTool.Sprite
 
             ///////////// BITMAP /////////////
             bitmap = reader.ReadBytes(calcBitmapLen());
+
+            
 
         }
     }

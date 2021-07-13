@@ -6,6 +6,7 @@ namespace GexGraphicsExportTool.Sprite
 {
     struct Header
     {
+        //TODO data indentifiers
         public Int32 bitmap_shiftX; // fixed-point 16.16
         public Int32 bitmap_shiftY; // fixed-point 16.16
 
