@@ -87,7 +87,7 @@ namespace GexGraphicsExportTool.Sprite
 
                         for (int i = 0; i < part.width * part.height; i++)
                         {
-                            if (i >= pixelStream.Length) break;
+                            if (pixelStream.Position >= pixelStream.Length) break;
                             drawColorIndexedPixel(relX+pixelX, relY+pixelY, pixelReader.ReadByte());
                             autoNextLine(ref pixelX, ref pixelY, part.width);
                         }

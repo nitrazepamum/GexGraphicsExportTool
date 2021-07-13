@@ -70,10 +70,10 @@ namespace GexGraphicsExportTool.Sprite
             this.header.bitmap_shiftY = reader.ReadInt32();
             reader.ReadBytes(4); // easy recognize symbols 85 99 ff ff
 
-            header.parts = new Chunk[5];
+            header.parts = new Chunk[8];
             //Chunks info (not calculated)
-            for (ushort i = 0; i < 5 // TODO TO 8 of 0
-                                     ; i++)
+            int i = 0;
+            do
             {
                 header.parts[i] = new Chunk();
                 header.parts[i].positionX = reader.ReadByte();
@@ -82,7 +82,8 @@ namespace GexGraphicsExportTool.Sprite
                 header.parts[i].height = reader.ReadByte();
                 header.parts[i].rel_positionX = reader.ReadInt16();
                 header.parts[i].rel_positionY = reader.ReadInt16();
-            }
+                i++;
+            } while (header.parts[i - 1].width > 0);
 
             header.sizeOfAligmentMap = reader.ReadInt32();
 
