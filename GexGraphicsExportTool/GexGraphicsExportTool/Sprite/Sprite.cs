@@ -38,7 +38,13 @@ namespace GexGraphicsExportTool.Sprite
                 return max;
             }
         }
-
+        public int Size
+        {
+            get
+            {
+                return this.Height * this.Width;
+            }
+        }
 
         private int calcBitmapLen()
         {
@@ -66,6 +72,8 @@ namespace GexGraphicsExportTool.Sprite
             BinaryReader reader = new BinaryReader(stream);
 
             //////////// HEADER ////////////
+            this.header.unknown_1 = reader.ReadInt32();
+            this.header.unknown_2 = reader.ReadInt32();
             this.header.bitmap_shiftX = reader.ReadInt32();
             this.header.bitmap_shiftY = reader.ReadInt32();
             reader.ReadBytes(4); // easy recognize symbols 85 99 ff ff

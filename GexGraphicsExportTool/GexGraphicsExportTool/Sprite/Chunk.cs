@@ -16,11 +16,16 @@ namespace GexGraphicsExportTool.Sprite
         //TODO check positionX, positionY mechanism
         public short getAbsoluteX()
         {
+
             return (short)(rel_positionX);
         }
         public short getAbsoluteY()
         {
             return (short)(rel_positionY);//((short)positionY * 4 + rel_positionY);
+        }
+        public int size
+        {
+            get { return width * height; }
         }
     }
 }
