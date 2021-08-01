@@ -56,7 +56,7 @@ namespace GexGraphicsExportTool.Sprite
                 }
                 // end of wrtiting functions, back to normal instructions
                 // ---- Pixel stream writing ----
-                for (int i = 0; i < sprite.size; i++)
+                for (int i = 0; i < sprite.Size; i++)
                 {
 
                     if (map_index >= sprite.aligmentMap.Length) break;
