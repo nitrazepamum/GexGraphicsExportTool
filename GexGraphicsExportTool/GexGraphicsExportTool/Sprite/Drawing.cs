@@ -32,7 +32,10 @@ namespace GexGraphicsExportTool.Sprite
                 // ---- aligment map values processing functions ----
                 void writeBitmapPixels()
                 {
-                    int pixelsPerBlock = sprite.aligmentMap[map_index] * 4;
+                    int mapValue = sprite.getMapVal(map_index);
+                    int pixelsPerBlock = mapValue * 4;
+
+                   
 
                     for (int j = 0; j < pixelsPerBlock; j++)
                     {
@@ -45,23 +48,24 @@ namespace GexGraphicsExportTool.Sprite
 
                 void writeFillmentData()
                 {
-                    int shift = 32 - (0x88 - sprite.aligmentMap[map_index]) * 4;
+                    short val = sprite.getMapVal(map_index);
+                    int shift = 32 - (0x88 - val) * 4;
                     for (int j = 0; j < shift; j++)
                     {
                         //repeat 4 bytes
                         if (bitmap_index + j % 4 >= sprite.bitmap.Length) return;
-                       pixelWriter.Write(sprite.bitmap[bitmap_index + j % 4]);
+                        pixelWriter.Write(sprite.bitmap[bitmap_index + j % 4]);
                     }
                     bitmap_index += 4;
                 }
                 // end of wrtiting functions, back to normal instructions
+                //
                 // ---- Pixel stream writing ----
-                for (int i = 0; i < sprite.Size; i++)
-                {
-
-                    if (map_index >= sprite.aligmentMap.Length) break;
-
-                    if (sprite.aligmentMap[map_index] < 0x70)
+                while (map_index < sprite.header.sizeOfAlignmentMap)
+                {                
+                    byte operation = sprite.mapOperation(sprite.alignmentMap[map_index]);
+           
+                    if (operation == 0)
                     {
                         writeBitmapPixels();
                     }
@@ -70,7 +74,7 @@ namespace GexGraphicsExportTool.Sprite
                         writeFillmentData();
                     }
                     map_index++;
-                } // (end) using BinaryWriter pixelWriter
+                } 
 
                 pixelStream.Position = 0;
                 //________ Painting Bitmap ________

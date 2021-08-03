@@ -22,6 +22,6 @@ namespace GexGraphicsExportTool.Sprite
 
         public Chunk[] parts;
 
-        public Int32 sizeOfAligmentMap; // including this DWORD
+        public Int32 sizeOfAlignmentMap; // including this DWORD
     }
 }
