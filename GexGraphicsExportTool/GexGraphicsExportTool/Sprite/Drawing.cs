@@ -7,7 +7,7 @@ using System.IO;
 
 namespace GexGraphicsExportTool.Sprite
 {
-    class Drawing
+    struct Drawing
     {
         static Bitmap bitmap;
         static Sprite sprite;
@@ -16,6 +16,7 @@ namespace GexGraphicsExportTool.Sprite
 
         static public Bitmap CreateBitmap(Sprite sprite)
         {
+            if (sprite.Size == 0) return null;
             Drawing.sprite = sprite;
             bitmap = new Bitmap(sprite.Width, sprite.Height);
 
@@ -83,6 +84,7 @@ namespace GexGraphicsExportTool.Sprite
                     // Part by part
                     foreach (Chunk part in sprite.header.parts)
                     {
+                        if (part == null) break;
                         int pixelX = 0;
                         int pixelY = 0;
 

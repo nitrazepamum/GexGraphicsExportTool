@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "sHHNbcYFDQxVtFgrFw99wiHOnfr2SMgNjwAuI1H7CZN95d/J1db1k8EWKlqkE7j+VINzgvgs5l7r6vbG9nar9Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Administrator\\Desktop\\GexGraphicsTool\\GexGraphicsExportTool\\GexGraphicsExportTool\\GexGraphicsExportTool\\GexGraphicsExportTool.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\system.drawing.common\\5.0.2\\system.drawing.common.5.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -4,8 +4,10 @@ using System.Text;
 
 namespace GexGraphicsExportTool.Sprite
 {
-    struct Header
+    class Header
     {
+        public static string signature = "85 ?? FF FF";
+
         //data indentifiers
         public Int32 unknown_1;
         public Int32 unknown_2;

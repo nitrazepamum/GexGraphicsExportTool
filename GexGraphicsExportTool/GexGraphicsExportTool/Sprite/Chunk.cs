@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GexGraphicsExportTool.Sprite
 {
-    struct Chunk
+    class Chunk
     {
         public byte positionX;
         public byte positionY;
