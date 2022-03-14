@@ -7,10 +7,16 @@ namespace GexGraphicsExportTool
 {
     class Program
     {
-        static long streamIndexOf(byte[] arr, Stream stream)
+        /// <summary>
+        /// Array of Bytes scan from stream function
+        /// </summary>
+        /// <param name="arr">
+        /// searched array of bytes
+        /// <returns>Index Of nearest occurance of searched aob or -1 if not found</returns>
+        static long AOBscan(byte[] arr, Stream stream)
         {
             BinaryReader reader = new BinaryReader(stream);
-            
+
             int valid = 0;
             long bytesToSteamEnd = stream.Length - stream.Position;
             for (long i = stream.Position; i < bytesToSteamEnd; i++)
@@ -29,8 +35,15 @@ namespace GexGraphicsExportTool
                 valid = 0;
             }
             return -1;
-            
         }
+        /*
+         * copy from stackoverflow you lazy bieatch 
+        static long AOBscan(string arr, Stream stream)
+        {
+            List
+        }
+
+        */
 
         static void Main(string[] args)
         {

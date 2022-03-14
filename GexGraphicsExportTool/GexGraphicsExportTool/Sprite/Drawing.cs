@@ -103,10 +103,6 @@ namespace GexGraphicsExportTool.Sprite
             }
         }
 
-        /*static int revertedY(int y)
-        {
-            return sprite.Height - y - 1;
-        } */
         static void autoNextLine(ref int pixelX, ref int pixelY, int rowWidth)
         {
             pixelX++;
@@ -118,7 +114,6 @@ namespace GexGraphicsExportTool.Sprite
         }
 
         // important functions //
-        //!!! reverts y here
         static void drawColorIndexedPixel(int pixelX, int pixelY, byte colorIndex)
         {
             Color color = sprite.colorPalette.getColor(colorIndex);
