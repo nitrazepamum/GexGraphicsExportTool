@@ -6,7 +6,7 @@ namespace GexGraphicsExportTool.Sprite
 {
     class Header
     {
-        public static string signature = "85 ?? FF FF";
+        
 
         //data indentifiers
         public Int32 unknown_1;
@@ -15,12 +15,7 @@ namespace GexGraphicsExportTool.Sprite
         public Int32 bitmap_shiftX; // fixed-point 16.16
         public Int32 bitmap_shiftY; // fixed-point 16.16
 
-        // 85 99 FF FF
-        /*
-        public byte graphicsType;
-        public byte extensionSymbol1; //0x99
-        public short extensionSymbol2;//0xFFFF
-        */
+        public static string signature = "85 ?? FF FF";
 
         public Chunk[] parts;
 

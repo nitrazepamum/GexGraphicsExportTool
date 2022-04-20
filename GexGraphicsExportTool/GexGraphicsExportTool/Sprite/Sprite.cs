@@ -8,7 +8,8 @@ namespace GexGraphicsExportTool.Sprite
     class Sprite
     {
         public Header header = new Header();
-        public byte[] alignmentMap;
+        public Stream alignmentMap;
+        public BinaryReader alignmentMapReader;
         public byte[] bitmap;
         public Palettes.Palette colorPalette = new Palettes.gexPalette(); //Temporary here
 
@@ -61,13 +62,16 @@ namespace GexGraphicsExportTool.Sprite
             int pixelsDrawn = 0;
 
             for (int i = 0; i < alignmentMap.Length; i++) {
-                int operation = mapOperation(alignmentMap[i]); //important
-                int val = getMapVal(i);
+                var manipulation = nextPixelOperation();
+                int val = manipulation.value;
+                byte operation = manipulation.operation;
+                
 
                 pixelsDrawn += (operation == 0 ? val * 4 : 32 - (0x88 - val) * 4);
                 bytesUsed += (operation == 0 ? val * 4 : 4);
                 if (pixelsDrawn >= bitmapPixelsCount) break;
             }
+            alignmentMap.Position = 0;
             return bytesUsed;
 
         }
@@ -79,24 +83,30 @@ namespace GexGraphicsExportTool.Sprite
         /// Raw aligmentMap value (just alignmentMap[i])
         /// </param>
         /// <returns>operation type</returns>
-        public byte mapOperation (short value){
+        private byte mapOperation (byte value){
             return (byte)((value / 128) % 2);
         }
 
         /// <summary>
         /// gives full value of aligment map with addition of 128 to big values
-        /// do not call mapOperation() with retrun value as param.
         /// </summary>
-        /// <param name="mapIndex"></param>
         /// <returns></returns>
-        public short getMapVal(int mapIndex)
+        public PixelOperationType nextPixelOperation()
         {
-            int i = mapIndex;
-            if (i == 0) return alignmentMap[0];
-            if (i > alignmentMap.Length) 
-                return 0;
+            if (alignmentMap.Length <= alignmentMap.Position)
+                return new PixelOperationType(0, 0);
 
-            return (short) (alignmentMap[i] + (alignmentMap[i - 1] == 0 ? 128 :  0));
+            ushort val = alignmentMapReader.ReadByte();
+            PixelOperationType pixelOperation = new PixelOperationType(mapOperation((byte)val), val);
+
+            // join big numbers
+            if (val == 0 || val == 0x80)
+            {
+                pixelOperation.value += 128;
+            }
+
+            return pixelOperation;
+            //return (short)(alignmentMap[i]); //+ (alignmentMap[i - 1] == 0 ? 128 :  0)); 
         }
 
         public void deserializeStream(Stream stream)
@@ -128,7 +138,9 @@ namespace GexGraphicsExportTool.Sprite
             header.sizeOfAlignmentMap = reader.ReadInt32() - 4;
 
             /////////// ALIGNMENT MAP ///////////
-            alignmentMap = reader.ReadBytes(header.sizeOfAlignmentMap);
+            
+            alignmentMap = new MemoryStream(reader.ReadBytes(header.sizeOfAlignmentMap));
+            alignmentMapReader = new BinaryReader(alignmentMap);
 
             ///////////// BITMAP /////////////
             bitmap = reader.ReadBytes(calcBitmapLen());

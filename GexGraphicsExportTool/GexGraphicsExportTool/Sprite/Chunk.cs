@@ -21,7 +21,9 @@ namespace GexGraphicsExportTool.Sprite
         }
         public short getAbsoluteY()
         {
-            return (short)(rel_positionY);//((short)positionY * 4 + rel_positionY);
+            //Int32 expected = rel_positionY / 8;
+            //Int32 sub = (expected - positionY) * 8;
+            return (short)(rel_positionY);//+sub);
         }
         public int size
         {

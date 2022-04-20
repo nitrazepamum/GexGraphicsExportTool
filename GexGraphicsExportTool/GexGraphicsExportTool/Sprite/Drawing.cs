@@ -7,6 +7,16 @@ using System.IO;
 
 namespace GexGraphicsExportTool.Sprite
 {
+    struct PixelOperationType
+    {
+        public byte operation; // 0 - bitmap pixels // 1 - fillment
+        public ushort value; // count
+        public PixelOperationType(byte operation, ushort value)
+        {
+            this.operation = operation;
+            this.value = value;
+        }
+    }
     struct Drawing
     {
         static Bitmap bitmap;
@@ -31,9 +41,8 @@ namespace GexGraphicsExportTool.Sprite
             using (BinaryWriter pixelWriter = new BinaryWriter(pixelStream))
             {
                 // ---- aligment map values processing functions ----
-                void writeBitmapPixels()
+                void writeBitmapPixels(int mapValue)
                 {
-                    int mapValue = sprite.getMapVal(map_index);
                     int pixelsPerBlock = mapValue * 4;
 
                    
@@ -47,9 +56,9 @@ namespace GexGraphicsExportTool.Sprite
 
                  }
 
-                void writeFillmentData()
+                void writeFillmentData(int mapValue)
                 {
-                    short val = sprite.getMapVal(map_index);
+                    short val = (short)mapValue;
                     int shift = 32 - (0x88 - val) * 4;
                     for (int j = 0; j < shift; j++)
                     {
@@ -62,17 +71,21 @@ namespace GexGraphicsExportTool.Sprite
                 // end of wrtiting functions, back to normal instructions
                 //
                 // ---- Pixel stream writing ----
+                sprite.alignmentMap.Position = 0;
                 while (map_index < sprite.header.sizeOfAlignmentMap)
-                {                
-                    byte operation = sprite.mapOperation(sprite.alignmentMap[map_index]);
-           
+                {
+
+                    var manipulation = sprite.nextPixelOperation();
+                    int mapValue = manipulation.value;
+                    byte operation = manipulation.operation;
+
                     if (operation == 0)
                     {
-                        writeBitmapPixels();
+                        writeBitmapPixels(mapValue);
                     }
                     else
                     {
-                        writeFillmentData();
+                        writeFillmentData(mapValue);
                     }
                     map_index++;
                 } 
